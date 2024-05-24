@@ -3,8 +3,9 @@
 <style>
   .is-dark-mode {
     background: black;
-    min-height: 500px;
+    min-height: 100vh;
     margin: -1rem;
     padding: 1rem;
+    height: 100%;
   }
 </style>
