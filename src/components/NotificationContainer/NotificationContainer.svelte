@@ -1,39 +1,102 @@
 <script lang="ts">
-    export let layout = 'square';
+  import ToggleButtonOnOff from '../ToggleButtonOnOff/ToggleButtonOnOff.svelte';
 
+  export let value;
 </script>
 
-<div class={`notification-container notification-container__${layout}`}>
-    <svg width="37" height="35" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g id="Headphones" clip-path="url(#clip0_50_1018)">
-        <path id="Ellipse 69" d="M34.5 25V18.3636C34.5 9.32625 27.3366 2 18.5 2C9.66344 2 2.5 9.32625 2.5 18.3636V25" stroke="black" stroke-width="4"/>
-        <path id="Rectangle 98" d="M28.5 21.0774C28.5 19.6301 29.9897 18.662 31.3123 19.2498L32.1246 19.6108C33.5691 20.2528 34.5 21.6853 34.5 23.2661V28.7338C34.5 30.3145 33.5691 31.747 32.1246 32.389L31.3123 32.75C29.9897 33.3378 28.5 32.3697 28.5 30.9224V21.0774Z" stroke="black" stroke-width="4"/>
-        <path id="Rectangle 99" d="M8.5 21.0774C8.5 19.6301 7.0103 18.662 5.68772 19.2498L4.87545 19.6108C3.43093 20.2528 2.5 21.6853 2.5 23.2661V28.7338C2.5 30.3145 3.43093 31.747 4.87545 32.389L5.68772 32.75C7.0103 33.3378 8.5 32.3697 8.5 30.9224V21.0774Z" stroke="black" stroke-width="4"/>
-        </g>
-        <defs>
-        <clipPath id="clip0_50_1018">
-        <rect width="37" height="35" fill="white"/>
-        </clipPath>
-        </defs>
-        </svg>
+<div class="notification-container__wrapper">
+  <aside class="notification-container">
+    <div class="notification-container__icon"><slot name="icon"></slot></div>
 
-        <p class="notification-container__text">This story is best experienced with sound on</p>
+    <div class="notification-container__text"><slot name="text"></slot></div>
+
+    <label class="notification-container__form">
+      <div class="notification-container__label"><slot name="label"></slot></div>
+
+      <div class="notification-container__toggle">
+        <ToggleButtonOnOff bind:value />
+      </div>
+    </label>
+  </aside>
 </div>
 
 <style>
-    .notification-container{
-        border-radius: 1.5rem;
-        padding:1.5rem;
-        background:rgba(16, 49, 106, 0.10);
+  .notification-container__wrapper {
+    container-type: inline-size;
+  }
+  .notification-container {
+    --background: rgba(16, 49, 106, 0.1);
+    --colour: black;
+    --icon-colour: black;
+    border-radius: 1.5rem;
+    background: var(--background);
+    color: var(--colour);
+    padding: 1.66rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+  }
+  .notification-container__icon :global(svg) {
+    width: 45px;
+    height: 45px;
+  }
+
+  .notification-container__text {
+    font-family: ABCSerif, serif;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 125%;
+    flex: 1;
+  }
+  .notification-container__form {
+    display: flex;
+    align-items: center;
+  }
+  .notification-container__label {
+    font-family: ABCSans, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: left;
+    margin-right: 1.25rem;
+  }
+  @container (min-width: 701px) {
+    .notification-container__icon {
+      margin-right: 1.5rem;
+    }
+    .notification-container__text {
+      margin-right: 1.25rem;
+    }
+  }
+
+  @container (max-width: 700px) {
+    .notification-container__icon {
+      margin-bottom: 1rem;
+    }
+    .notification-container__text {
+      margin-bottom: 1.5rem;
+    }
+    .notification-container {
+      max-width: 375px;
+      margin: 0 auto;
+      flex-direction: column;
+      text-align: center;
     }
 
-    .notification-container__text{
-        color: #000;
-        text-align: center;
-        font-family: ABCSerif;
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 125%;
+    .notification-container__icon :global(svg) {
+      width: 32px;
+      height: 32px;
     }
+  }
+
+  :global(.is-dark-mode) .notification-container {
+    --background: #a0beeb4d;
+    --colour: white;
+    --icon-colour: white;
+  }
+  :global(.is-dark-mode) .notification-container .notification-container__icon :global(svg path) {
+    stroke: white;
+  }
 </style>
