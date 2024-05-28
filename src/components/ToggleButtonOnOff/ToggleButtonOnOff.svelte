@@ -9,7 +9,11 @@
 </script>
 
 <div class="toggle-button-onoff">
-  <span class="toggle-button-onoff__text" class:toggle-button-onoff__text--on={value}>
+  <!--
+    Hide on/off text for screen readers because it's already build into the
+    checkbox in the ToggleButton
+  -->
+  <span class="toggle-button-onoff__text" class:toggle-button-onoff__text--on={value} aria-hidden="true">
     {value ? 'On' : 'Off'}
   </span>
   <ToggleButton bind:value />
