@@ -62,7 +62,7 @@
     text-align: left;
     margin-right: 1.25rem;
   }
-  @container (min-width: 701px) {
+  @container (min-width: 651px) {
     .notification-container__icon {
       margin-right: 1.5rem;
     }
@@ -71,7 +71,7 @@
     }
   }
 
-  @container (max-width: 700px) {
+  @container (max-width: 650px) {
     .notification-container__icon {
       margin-bottom: 1rem;
     }
