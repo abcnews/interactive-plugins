@@ -59,7 +59,7 @@
   }
   .togglebutton__graphic {
     --height: 1.5rem;
-    --background: #dcdfe4;
+    --background: rgba(255, 255, 255, 0.5);
     --border: rgba(0, 0, 0, 0.8);
     --dot: rgba(0, 0, 0, 0.8);
     box-sizing: border-box;
