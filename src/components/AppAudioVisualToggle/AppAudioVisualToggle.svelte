@@ -38,10 +38,8 @@
       video.volume = 0;
 
       if (videoPlayer.api) {
-        // Setting these to false stops Odyssey from trying to play/pause them
-        // as the page scrolls. This plugin handles that during audio fading.
-        videoPlayer.api.isAmbient = false;
-        videoPlayer.api.isScrollplay = false;
+        // Tell Odyssey we want to play videos simultaneously.
+        videoPlayer.api.isAmbient = true;
       }
     });
 

@@ -1,3 +1,4 @@
+import { log } from "../../util/debug";
 
 
 
@@ -12,8 +13,10 @@ export const getVideoEl = (video) => {
 
 async function playVideo(video) {
   if (video.api) {
+    log('PLAYING (api)', { video });
     return video.api.play();
   } else {
+    log('PLAYING (dom)', { video });
     return video.play();
   }
 }
@@ -28,8 +31,10 @@ function getIsMuted(video) {
 
 function pauseVideo(video) {
   if (video.api) {
+    log('PAUSING (api)', { video });
     video.api.pause();
   } else {
+    log('PAUSING (dom)', { video });
     getVideoEl(video).pause();
   }
 }
@@ -130,9 +135,10 @@ export const observeElements = ({ videos, value }: { videos: Element[]; value: b
     }
     video.dataset.expected = 'playing'
     playVideo(video).catch(e => {
+      log('ERROR', e.message, 'retrying', { video });
       // Sometimes the first play event fails due to a race condition.
-      if (e.message.includes('request was interrupted by a new load request')) {
-        return video.play().catch(playbackErrorLog);
+      if (e.message.includes('request was interrupted')) {
+        return playVideo(video).catch(playbackErrorLog);
       }
       playbackErrorLog(e);
     });
@@ -152,6 +158,7 @@ export const observeElements = ({ videos, value }: { videos: Element[]; value: b
       const video = getVideoEl(entry.target);
       if (!video) return;
       if (entry.intersectionRatio > OBSERVATION_RATIO) {
+        log('SPOTTED', { video });
         videoIn(video);
       } else {
         // Observe going out of view
