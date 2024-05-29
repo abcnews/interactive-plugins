@@ -99,4 +99,9 @@
   :global(.is-dark-mode) .notification-container .notification-container__icon :global(svg path) {
     stroke: white;
   }
+
+  :global(#audio-visual-plugin-mount, #reduced-motion-plugin-mount) {
+    width: auto;
+    max-width: 47.875rem;
+  }
 </style>
