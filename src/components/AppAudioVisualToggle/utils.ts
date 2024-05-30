@@ -11,16 +11,6 @@ export const getVideoEl = (video) => {
   }
 }
 
-async function playVideo(video) {
-  if (video.api) {
-    log('PLAYING (api)', { video });
-    return video.api.play();
-  } else {
-    log('PLAYING (dom)', { video });
-    return video.play();
-  }
-}
-
 function getIsMuted(video) {
   if (video.api) {
     return video.api.isMuted();
@@ -29,24 +19,17 @@ function getIsMuted(video) {
   }
 }
 
-function pauseVideo(video) {
-  if (video.api) {
-    log('PAUSING (api)', { video });
-    video.api.pause();
-  } else {
-    log('PAUSING (dom)', { video });
-    getVideoEl(video).pause();
-  }
-}
-
 function setMuted(video, isMuted) {
   if (isMuted) {
     if (getIsMuted(video)) {
-      return
+      return;
     }
   }
   if (video.api) {
     video.api.setMuted(isMuted);
+
+    // setMuted sets this flag, which stops Odyssey autoplaying video
+    video.api.isUserInControl = false;
   } else {
     getVideoEl(video).muted = isMuted;
   }
@@ -57,7 +40,7 @@ function resetVideo(videoEl) {
   clearInterval(videoEl.fadeIntervalId);
 }
 
-export const fadeInVideoEl = (videoPlayer, interval = 200) => {
+export const fadeInVideoEl = ({ videoPlayer, interval = 100 }) => {
 
   // Get the actual video element
   const videoEl = getVideoEl(videoPlayer);
@@ -74,7 +57,7 @@ export const fadeInVideoEl = (videoPlayer, interval = 200) => {
     videoEl.fadeIntervalId = setInterval(function () {
       // Reduce volume as long as it is above 0
       if (vol < 1.0) {
-        vol += 0.4;
+        vol += 0.2;
         if (vol > 1.0) vol = 1.0;
         videoEl.volume = vol.toFixed(2);
       } else {
@@ -85,33 +68,51 @@ export const fadeInVideoEl = (videoPlayer, interval = 200) => {
   }
 };
 
-export const fadeOutVideoEl = ({ videoPlayer, interval = 200, pause = false }) => {
+export const fadeOutVideoEl = ({ videoPlayer, interval = 100 }) => {
 
-  const videoEl = getVideoEl(videoPlayer);
-  if (videoEl.muted) {
-    // The video has already been faded out, we don't need to do anything.
-    return;
-  }
+  let isRunning = true;
 
-  resetVideo(videoEl)
+  const promise = new Promise((resolve, reject) => {
 
-  if (videoEl.volume > 0.0) {
-    let vol = videoEl.volume;
+    const videoEl = getVideoEl(videoPlayer);
+    if (videoEl.muted) {
+      // The video has already been faded out, we don't need to do anything.
+      resolve();
+      return;
+    }
 
-    videoEl.fadeIntervalId = setInterval(function () {
-      // Reduce volume as long as it is above 0
-      if (vol > 0) {
-        vol -= 0.1;
-        if (vol < 0.0) vol = 0.0;
-        videoEl.volume = vol.toFixed(2);
-      } else {
-        // Stop the setInterval when 0 is reached
-        setMuted(videoPlayer, true);
-        pause && pauseVideo(videoPlayer);
-        clearInterval(videoEl.fadeIntervalId);
-      }
-    }, interval);
-  }
+    resetVideo(videoEl);
+
+    if (videoEl.volume > 0.0) {
+      let vol = videoEl.volume;
+
+      videoEl.fadeIntervalId = setInterval(function () {
+        if (!isRunning) {
+          log('fadeOutVideoEl', 'rejecting')
+          return reject();
+        }
+        // Reduce volume as long as it is above 0
+        if (vol > 0) {
+          log('fadeOutVideoEl', 'adjusting volume')
+          vol -= 0.05;
+          if (vol < 0.0) vol = 0.0;
+          videoEl.volume = vol.toFixed(2);
+        } else {
+          log('fadeOutVideoEl', 'volume is zero')
+          // Stop the setInterval when 0 is reached
+          setMuted(videoPlayer, true);
+          resetVideo(videoEl);
+          resolve();
+        }
+      }, interval);
+    }
+  });
+  promise.cancel = () => {
+    isRunning = false;
+    log('fadeOutVideoEl', 'cancelling');
+  };
+  return promise;
+
 };
 
 /** This has to be 0.0 for now (don't ask questions) */
@@ -123,59 +124,55 @@ export const OBSERVATION_MARGIN_RATIO = 0.35;
 /** Class name for currently active Odyssey block media */
 export const CLASS_ACTIVE = 'play-active';
 
-/** For debugging playback errors */
-const playbackErrorLog = e => console.error('OAVP playback error:', e);
-
-export const observeElements = ({ videos, value }: { videos: Element[]; value: boolean }) => {
-
-  function videoIn(video) {
-    if (value) {
-      setMuted(video, false);
-      fadeInVideoEl(video);
+export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Element[]; value: boolean }) => {
+  const reversions: (() => void)[] = [];
+  Array.from(videoPlayers).forEach(videoPlayer => {
+    if (!videoPlayer.api) {
+      log('init', 'error, video doesn\'t have API', videoPlayer);
+      return;
     }
-    video.dataset.expected = 'playing'
-    playVideo(video).catch(e => {
-      log('ERROR', e.message, 'retrying', { video });
-      // Sometimes the first play event fails due to a race condition.
-      if (e.message.includes('request was interrupted')) {
-        return playVideo(video).catch(playbackErrorLog);
-      }
-      playbackErrorLog(e);
-    });
-  }
 
-  function videoOut(video) {
-    video.dataset.expected = 'paused'
+    // Tell Odyssey we want to play videos simultaneously.
+    videoPlayer.api.isAmbient = true;
+
+    // Adjust Odyssey's threshold for playing videos
+    videoPlayer.api.willPlayAudio = true;
+
     if (value) {
-      fadeOutVideoEl({ videoPlayer: video, pause: true });
+      fadeInVideoEl({ videoPlayer });
     } else {
-      pauseVideo(video)
+      fadeOutVideoEl({ videoPlayer });
+      return;
     }
-  }
 
-  const intersectionObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      const video = getVideoEl(entry.target);
-      if (!video) return;
-      if (entry.intersectionRatio > OBSERVATION_RATIO) {
-        log('SPOTTED', { video });
-        videoIn(video);
-      } else {
-        // Observe going out of view
-        videoOut(video);
-      }
-    });
-  }, {
-    root: null,
-    rootMargin: `-${window.innerHeight * OBSERVATION_MARGIN_RATIO}px 0px`,
-    threshold: OBSERVATION_RATIO
-  });
+    // Extend Odyssey play function to fade in as required
+    const oldPlay = videoPlayer.api.play;
+    videoPlayer.api.play = () => {
+      oldPlay.apply(videoPlayer);
+      fadeInVideoEl({ videoPlayer });
+    }
+    reversions.push(() => {
+      videoPlayer.api.play = oldPlay;
+    })
 
-  Array.from(videos).forEach(videoPlayer => {
-    intersectionObserver.observe(videoPlayer);
-  });
+    // Extend Odyssey pause function to fade out as required
+    const oldPause = videoPlayer.api.pause;
+    videoPlayer.api.pause = () => {
+      fadeOutVideoEl({ videoPlayer }).then(() => {
+        oldPause.apply(videoPlayer);
+      }).catch(e => {
+        // Don't do anything. This only throws if the fade out was interrupted by a fade in.
+      })
+
+    }
+    reversions.push(() => {
+      videoPlayer.api.pause = oldPause;
+    })
+
+  })
 
   return () => {
-    intersectionObserver.disconnect();
+    log('revert', 'reverting changes to odyssey')
+    reversions.forEach(revert => revert())
   }
 }

@@ -5,7 +5,7 @@
    * A "prefers reduced motion" component
    */
   import NotificationContainer from '../NotificationContainer/NotificationContainer.svelte';
-  import { observeElements } from './utils';
+  import { overridePlayState } from './utils';
   import FloatingButton from './FloatingButton/FloatingButton.svelte';
   import { fadeOutVideoEl } from './utils';
   import { getVideoEl } from './utils';
@@ -28,28 +28,15 @@
      * 2. Any <video> element inside a `class="oavp-video"` parent
      */
     const VIDEO_PLAYER_QUERY_SELECTOR = '.VideoPlayer,.oavp-video video';
-    const videos = Array.from(document.querySelectorAll(VIDEO_PLAYER_QUERY_SELECTOR));
-
-    // reset each video to our expected state
-    videos.forEach(videoPlayer => {
-      const video = getVideoEl(videoPlayer);
-      if (video.oavp_runonce) return;
-      video.oavp_runonce = true;
-      video.volume = 0;
-
-      if (videoPlayer.api) {
-        // Tell Odyssey we want to play videos simultaneously.
-        videoPlayer.api.isAmbient = true;
-      }
-    });
+    const videoPlayers = Array.from(document.querySelectorAll(VIDEO_PLAYER_QUERY_SELECTOR));
 
     // each time the list of videos changes, tear down the previous observer
     // and set up a new one
     observerTeardown && observerTeardown();
-    observerTeardown = observeElements({ videos, value });
+    observerTeardown = overridePlayState({ videoPlayers, value });
 
     if (!value) {
-      Array.from(videos).forEach(video => fadeOutVideoEl({ videoPlayer: video, interval: 50, pause: false }));
+      Array.from(videoPlayers).forEach(video => fadeOutVideoEl({ videoPlayer: video, interval: 50, pause: false }));
     }
   }
 
