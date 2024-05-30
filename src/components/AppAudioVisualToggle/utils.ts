@@ -68,11 +68,15 @@ export const fadeInVideoEl = ({ videoPlayer, interval = 100 }) => {
   }
 };
 
+interface CancelablePromise extends Promise<void> {
+  cancel?(): void;
+}
+
 export const fadeOutVideoEl = ({ videoPlayer, interval = 100 }) => {
 
   let isRunning = true;
 
-  const promise = new Promise((resolve, reject) => {
+  const promise: CancelablePromise = new Promise<void>((resolve, reject) => {
 
     const videoEl = getVideoEl(videoPlayer);
     if (videoEl.muted) {
@@ -107,6 +111,7 @@ export const fadeOutVideoEl = ({ videoPlayer, interval = 100 }) => {
       }, interval);
     }
   });
+
   promise.cancel = () => {
     isRunning = false;
     log('fadeOutVideoEl', 'cancelling');
@@ -127,16 +132,18 @@ export const CLASS_ACTIVE = 'play-active';
 export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Element[]; value: boolean }) => {
   const reversions: (() => void)[] = [];
   Array.from(videoPlayers).forEach(videoPlayer => {
-    if (!videoPlayer.api) {
+    // @ts-ignore
+    const api = videoPlayer.api;
+    if (!api) {
       log('init', 'error, video doesn\'t have API', videoPlayer);
       return;
     }
 
     // Tell Odyssey we want to play videos simultaneously.
-    videoPlayer.api.isAmbient = true;
+    api.isAmbient = true;
 
     // Adjust Odyssey's threshold for playing videos
-    videoPlayer.api.willPlayAudio = true;
+    api.willPlayAudio = true;
 
     if (value) {
       fadeInVideoEl({ videoPlayer });
@@ -146,19 +153,19 @@ export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Eleme
     }
 
     // Extend Odyssey play function to fade in as required
-    const oldPlay = videoPlayer.api.play;
-    videoPlayer.api.play = () => {
+    const oldPlay = api.play;
+    api.play = () => {
       log('API', 'fading in');
       oldPlay.apply(videoPlayer);
       fadeInVideoEl({ videoPlayer });
     }
     reversions.push(() => {
-      videoPlayer.api.play = oldPlay;
+      api.play = oldPlay;
     })
 
     // TODO: Extend Odyssey play function to fade out as required
-    const oldPause = videoPlayer.api.pause;
-    videoPlayer.api.pause = () => {
+    const oldPause = api.pause;
+    api.pause = () => {
 
       log('API', 'fading out');
       fadeOutVideoEl({ videoPlayer }).then(() => {
@@ -171,7 +178,7 @@ export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Eleme
 
     }
     reversions.push(() => {
-      videoPlayer.api.pause = oldPause;
+      api.pause = oldPause;
     })
 
   })
