@@ -148,6 +148,7 @@ export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Eleme
     // Extend Odyssey play function to fade in as required
     const oldPlay = videoPlayer.api.play;
     videoPlayer.api.play = () => {
+      log('API', 'fading in');
       oldPlay.apply(videoPlayer);
       fadeInVideoEl({ videoPlayer });
     }
@@ -155,12 +156,16 @@ export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Eleme
       videoPlayer.api.play = oldPlay;
     })
 
-    // Extend Odyssey pause function to fade out as required
+    // TODO: Extend Odyssey play function to fade out as required
     const oldPause = videoPlayer.api.pause;
     videoPlayer.api.pause = () => {
+
+      log('API', 'fading out');
       fadeOutVideoEl({ videoPlayer }).then(() => {
+        log('API', 'pausing');
         oldPause.apply(videoPlayer);
       }).catch(e => {
+        log('API', 'fading out interrupted');
         // Don't do anything. This only throws if the fade out was interrupted by a fade in.
       })
 
@@ -172,7 +177,7 @@ export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Eleme
   })
 
   return () => {
-    log('revert', 'reverting changes to odyssey')
+    log('overridePlayState', 'reverting changes to odyssey')
     reversions.forEach(revert => revert())
   }
 }
