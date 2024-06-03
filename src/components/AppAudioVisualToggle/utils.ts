@@ -134,16 +134,14 @@ export const overridePlayState = ({ videos, value }: { videos: Element[]; value:
   Array.from(videos).forEach(videoPlayer => {
     // @ts-ignore
     const api = videoPlayer.parentNode.api;
-    if (!api) {
-      log('init', 'error, video doesn\'t have API', videoPlayer);
-      return;
+
+    if (api) {
+      // Tell Odyssey we want to play videos simultaneously.
+      api.isAmbient = true;
+
+      // Adjust Odyssey's threshold for playing videos
+      api.willPlayAudio = true;
     }
-
-    // Tell Odyssey we want to play videos simultaneously.
-    api.isAmbient = true;
-
-    // Adjust Odyssey's threshold for playing videos
-    api.willPlayAudio = true;
 
     if (value) {
       fadeInVideoEl({ videoPlayer });
@@ -152,34 +150,49 @@ export const overridePlayState = ({ videos, value }: { videos: Element[]; value:
       return;
     }
 
+    /**
+     * The element to override. If we have an Odyssey API, use that. Otherwise
+     * override the native play/pause handlers. If we only override the native
+     * controls Odyssey gets confused.
+     */
+    const elementToActOn = api || videoPlayer;
+    const elementToActOnName = api ? 'API' : 'DOM';
+    log('overridePlayState', 'initialising element via ', elementToActOnName)
+
     // Extend Odyssey play function to fade in as required
-    const oldPlay = api.play;
-    api.play = () => {
-      log('API', 'fading in');
+    const oldPlay = elementToActOn.play;
+    elementToActOn.play = () => {
+      log(elementToActOnName, 'fading in');
       oldPlay.apply(videoPlayer);
       fadeInVideoEl({ videoPlayer });
     }
     reversions.push(() => {
-      api.play = oldPlay;
+      elementToActOn.play = oldPlay;
     })
 
-    // TODO: Extend Odyssey play function to fade out as required
-    const oldPause = api.pause;
-    api.pause = () => {
+    // Only fade out using the Odyssey API
+    // Otherwise Odyssey will reset the video position to the start, but the
+    // video will continue fading out, which is jarring.
+    if (elementToActOn === api) {
+      // TODO: Extend Odyssey play function to fade out as required
+      const oldPause = elementToActOn.pause;
 
-      log('API', 'fading out');
-      fadeOutVideoEl({ videoPlayer }).then(() => {
-        log('API', 'pausing');
-        oldPause.apply(videoPlayer);
-      }).catch(e => {
-        log('API', 'fading out interrupted');
-        // Don't do anything. This only throws if the fade out was interrupted by a fade in.
-      })
+      elementToActOn.pause = () => {
 
+        log(elementToActOnName, 'fading out');
+        fadeOutVideoEl({ videoPlayer }).then(() => {
+          log(elementToActOnName, 'pausing');
+          oldPause.apply(videoPlayer);
+        }).catch(e => {
+          log(elementToActOnName, 'fading out interrupted');
+          // Don't do anything. This only throws if the fade out was interrupted by a fade in.
+        })
+
+      }
+      reversions.push(() => {
+        elementToActOn.pause = oldPause;
+      });
     }
-    reversions.push(() => {
-      api.pause = oldPause;
-    })
 
   })
 
