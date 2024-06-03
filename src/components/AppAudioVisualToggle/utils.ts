@@ -129,11 +129,11 @@ export const OBSERVATION_MARGIN_RATIO = 0.35;
 /** Class name for currently active Odyssey block media */
 export const CLASS_ACTIVE = 'play-active';
 
-export const overridePlayState = ({ videoPlayers, value }: { videoPlayers: Element[]; value: boolean }) => {
+export const overridePlayState = ({ videos, value }: { videos: Element[]; value: boolean }) => {
   const reversions: (() => void)[] = [];
-  Array.from(videoPlayers).forEach(videoPlayer => {
+  Array.from(videos).forEach(videoPlayer => {
     // @ts-ignore
-    const api = videoPlayer.api;
+    const api = videoPlayer.parentNode.api;
     if (!api) {
       log('init', 'error, video doesn\'t have API', videoPlayer);
       return;

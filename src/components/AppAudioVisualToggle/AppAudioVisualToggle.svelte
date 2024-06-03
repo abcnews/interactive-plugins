@@ -22,21 +22,15 @@
   }
 
   $: {
-    /**
-     * Supported video types.
-     * 1. Odyssey video player root
-     * 2. Any <video> element inside a `class="oavp-video"` parent
-     */
-    const VIDEO_PLAYER_QUERY_SELECTOR = '.VideoPlayer,.oavp-video video';
-    const videoPlayers = Array.from(document.querySelectorAll(VIDEO_PLAYER_QUERY_SELECTOR));
+    const videos: HTMLElement[] = Array.from(document.querySelectorAll('video'));
 
     // each time the list of videos changes, tear down the previous observer
     // and set up a new one
     observerTeardown && observerTeardown();
-    observerTeardown = overridePlayState({ videoPlayers, value });
+    observerTeardown = overridePlayState({ videos, value });
 
     if (!value) {
-      Array.from(videoPlayers).forEach(video => fadeOutVideoEl({ videoPlayer: video, interval: 50, pause: false }));
+      Array.from(videos).forEach(video => fadeOutVideoEl({ videoPlayer: video, interval: 50 }));
     }
   }
 
