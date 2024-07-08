@@ -124,6 +124,6 @@
   }
   :global(.is-dark-mode) .togglebutton__input:checked + .togglebutton__graphic {
     --dot: black;
-    --background: rgba(255, 255, 255, 0.8);
+    --background: #d1e0f5;
   }
 </style>
