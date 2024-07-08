@@ -25,7 +25,6 @@
     align-items: center;
   }
   .toggle-button-onoff__text {
-    text-transform: uppercase;
     text-align: right;
     font-family: 'ABC Sans Nova';
     font-size: 0.875rem;
