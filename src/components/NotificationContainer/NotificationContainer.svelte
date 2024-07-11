@@ -25,12 +25,12 @@
     container-type: inline-size;
   }
   .notification-container {
-    --background: rgba(117, 128, 138, 0.15);
-    --surface-utility-bolder: rgba(249, 250, 250, 0.81);
+    --surface-utility: rgba(117, 128, 138, 0.15);
+    --surface-utility-bolder: var(--surface-utility);
     --colour: black;
     --icon-colour: black;
     border-radius: 0.75rem;
-    background: var(--background);
+    background: var(--surface-utility);
     color: var(--colour);
     padding: 1rem;
     display: flex;
@@ -95,7 +95,7 @@
   }
 
   :global(.is-dark-mode) .notification-container {
-    --background: rgba(48, 50, 54, 0.6);
+    --surface-utility: rgba(48, 50, 54, 0.6);
     --surface-utility-bolder: rgba(24, 25, 27, 0.75);
     --colour: #ebebeb;
     --icon-colour: white;
