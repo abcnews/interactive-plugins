@@ -1,42 +1,42 @@
 {
-  "name": "interactive-plugins",
-  "version": "1.0.4",
-  "description": "A project generated from aunty's svelte project template.",
-  "license": "MIT",
-  "private": true,
-  "contributors": [
-    "Ash Kyd <ash@kyd.com.au>"
-  ],
-  "aunty": {
-    "type": "svelte"
-  },
-  "scripts": {
-    "start": "aunty serve",
-    "dev": "aunty serve",
-    "test": "aunty test",
-    "storybook": "storybook dev -p 6007 --ci",
-    "build-storybook": "storybook build"
-  },
-  "devDependencies": {
-    "@abcnews/aunty": "^15.0.3",
-    "@chromatic-com/storybook": "^1.4.0",
-    "@storybook/addon-essentials": "^8.1.2",
-    "@storybook/addon-interactions": "^8.1.2",
-    "@storybook/addon-links": "^8.1.2",
-    "@storybook/addon-webpack5-compiler-swc": "^1.0.4",
-    "@storybook/blocks": "^8.1.2",
-    "@storybook/svelte": "^8.1.2",
-    "@storybook/svelte-webpack5": "^8.1.2",
-    "@storybook/test": "^8.1.2",
-    "@testing-library/svelte": "^5.1.0",
-    "@types/jest": "^29.5.12",
-    "@types/webpack-env": "^1.18.5",
-    "storybook": "^8.1.2"
-  },
-  "dependencies": {
-    "@abcnews/alternating-case-to-object": "^3.1.1",
-    "@abcnews/env-utils": "^3.1.0",
-    "@abcnews/mount-utils": "^3.0.0",
-    "svelte": "^4.2.17"
-  }
+	"name": "interactive-plugins",
+	"version": "1.0.5",
+	"description": "A project generated from aunty's svelte project template.",
+	"license": "MIT",
+	"private": true,
+	"contributors": [
+		"Ash Kyd <ash@kyd.com.au>"
+	],
+	"aunty": {
+		"type": "svelte"
+	},
+	"scripts": {
+		"start": "aunty serve",
+		"dev": "aunty serve",
+		"test": "aunty test",
+		"storybook": "storybook dev -p 6007 --ci",
+		"build-storybook": "storybook build"
+	},
+	"devDependencies": {
+		"@abcnews/aunty": "^15.0.3",
+		"@chromatic-com/storybook": "^1.4.0",
+		"@storybook/addon-essentials": "^8.1.2",
+		"@storybook/addon-interactions": "^8.1.2",
+		"@storybook/addon-links": "^8.1.2",
+		"@storybook/addon-webpack5-compiler-swc": "^1.0.4",
+		"@storybook/blocks": "^8.1.2",
+		"@storybook/svelte": "^8.1.2",
+		"@storybook/svelte-webpack5": "^8.1.2",
+		"@storybook/test": "^8.1.2",
+		"@testing-library/svelte": "^5.1.0",
+		"@types/jest": "^29.5.12",
+		"@types/webpack-env": "^1.18.5",
+		"storybook": "^8.1.2"
+	},
+	"dependencies": {
+		"@abcnews/alternating-case-to-object": "^3.1.1",
+		"@abcnews/env-utils": "^3.1.0",
+		"@abcnews/mount-utils": "^3.0.0",
+		"svelte": "^4.2.17"
+	}
 }
