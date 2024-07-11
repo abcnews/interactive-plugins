@@ -11,7 +11,7 @@
   import { getVideoEl } from './utils';
   const BODY_CLASS = 'is-audio-enabled';
 
-  /** Have we unmueted audio? */
+  /** Have we unmuted audio? */
   let value = false;
   let enableAudioTextEl;
   let observerTeardown = () => {};
@@ -22,7 +22,7 @@
   }
 
   $: {
-    const videos: HTMLElement[] = Array.from(document.querySelectorAll('video'));
+    const videos = Array.from(document.querySelectorAll('video'));
 
     // each time the list of videos changes, tear down the previous observer
     // and set up a new one

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   /**
    * @file
    * An accessible, reusable toggle button/glorified checkbox with ON/OFF text
@@ -25,12 +25,14 @@
     align-items: center;
   }
   .toggle-button-onoff__text {
-    text-transform: uppercase;
-    font-family: ABC Sans Nova;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
     text-align: right;
+    font-family: 'ABC Sans Nova';
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 125%; /* 1.09375rem */
+    letter-spacing: 0.0875rem;
+    text-transform: uppercase;
     width: 1.875rem;
     margin-right: 0.75rem;
     transition: color 0.3s;

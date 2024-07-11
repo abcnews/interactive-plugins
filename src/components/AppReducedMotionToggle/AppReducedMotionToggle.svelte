@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   /**
    * @file
    * A "prefers reduced motion" component.
