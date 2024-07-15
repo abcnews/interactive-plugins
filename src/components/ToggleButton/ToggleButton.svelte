@@ -98,6 +98,7 @@
     height: calc(100% + 0.5rem);
     z-index: 2;
     opacity: 0;
+    cursor: pointer;
   }
   .togglebutton__input:checked + .togglebutton__graphic {
     --dot: white;

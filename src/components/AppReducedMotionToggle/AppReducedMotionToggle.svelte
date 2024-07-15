@@ -57,22 +57,16 @@
       height="28.2843"
       rx="4"
       transform="rotate(-45 20.7313 20)"
-      stroke="black"
       stroke-width="5"
     />
-    <path d="M38.3385 5.31384L21.3984 5.31384" stroke="black" stroke-width="5" stroke-linecap="round" />
-    <path d="M38.3385 34.6859L14.7667 34.6859" stroke="black" stroke-width="5" stroke-linecap="round" />
-    <path d="M37.0654 24.8954L17.0979 24.8954" stroke="black" stroke-width="5" stroke-linecap="round" />
-    <path d="M11.0879 24.8954L8.98993 24.8954" stroke="black" stroke-width="5" stroke-linecap="round" />
-    <path d="M19.1127 15.1046L13.1562 15.1046" stroke="black" stroke-width="5" stroke-linecap="round" />
-    <path d="M6.96908 15.1046H3" stroke="black" stroke-width="5" stroke-linecap="round" />
+    <path d="M38.3385 5.31384L21.3984 5.31384" stroke-width="5" stroke-linecap="round" />
+    <path d="M38.3385 34.6859L14.7667 34.6859" stroke-width="5" stroke-linecap="round" />
+    <path d="M37.0654 24.8954L17.0979 24.8954" stroke-width="5" stroke-linecap="round" />
+    <path d="M11.0879 24.8954L8.98993 24.8954" stroke-width="5" stroke-linecap="round" />
+    <path d="M19.1127 15.1046L13.1562 15.1046" stroke-width="5" stroke-linecap="round" />
+    <path d="M6.96908 15.1046H3" stroke-width="5" stroke-linecap="round" />
   </svg>
 </NotificationContainer>
 
 <style>
-  .icon rect,
-  .icon path {
-    /* NotificationContainer deals with dark mode, will set this based on theme */
-    stroke: var(--icon-colour, orange);
-  }
 </style>
