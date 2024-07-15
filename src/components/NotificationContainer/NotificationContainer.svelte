@@ -41,7 +41,7 @@
     gap: 0.75rem;
     color: var(--Text-text-primary);
     text-align: center;
-    font-family: 'ABC Sans Nova';
+    font-family: var(--od-font-stack-sans);
     font-size: 1rem;
     font-style: normal;
     font-weight: 700;

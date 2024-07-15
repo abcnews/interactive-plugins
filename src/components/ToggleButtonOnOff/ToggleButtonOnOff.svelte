@@ -26,7 +26,7 @@
   }
   .toggle-button-onoff__text {
     text-align: right;
-    font-family: 'ABC Sans Nova';
+    font-family: var(--od-font-stack-sans);
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 700;
