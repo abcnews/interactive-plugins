@@ -24,7 +24,6 @@
 <style>
   .notification-container__wrapper {
     container-type: inline-size;
-    text-align: center;
   }
   .notification-container {
     --Text-text-primary: black;
@@ -32,12 +31,11 @@
 
     border-radius: 0.75rem;
     background: var(--surface-utility);
-    display: inline-flex;
-    max-width: 22.375rem;
+    display: flex;
     padding: 1rem;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.75rem;
     color: var(--Text-text-primary);
     text-align: center;
@@ -60,10 +58,11 @@
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
-    align-self: stretch;
     border-radius: 1000rem;
     background: var(--surface-utility, rgba(117, 128, 138, 0.15));
     cursor: pointer;
+    width: 100%;
+    max-width: 400px;
   }
 
   .notification-container__label {
@@ -82,15 +81,20 @@
     stroke: var(--Text-text-primary);
   }
 
-  @container (min-width: 651px) {
+  @container (min-width: 520px) {
     .notification-container {
+      text-align: left;
       flex-direction: row;
       align-items: center;
       max-width: unset;
       margin: 0 auto;
       border-radius: 1000rem;
-      padding: 0.75rem 0.75rem 0.75rem 1rem;
+      padding: 0.75rem 0.75rem 0.75rem 1.5rem;
       gap: 2rem;
+    }
+    .notification-container__form {
+      width: auto;
+      padding: 0.5rem 0.5rem 0.5rem 1rem;
     }
   }
 

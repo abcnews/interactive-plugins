@@ -35,10 +35,16 @@
     text-transform: uppercase;
     width: 1.875rem;
     margin-right: 0.75rem;
-    transition: color 0.3s;
+    transition:
+      color 0.3s,
+      opacity 0.3s;
     opacity: 0.8;
   }
   .toggle-button-onoff__text--on {
     opacity: 1;
+  }
+
+  :global(.is-dark-mode) .toggle-button-onoff__text--on {
+    color: #d1e0f5;
   }
 </style>
