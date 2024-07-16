@@ -28,6 +28,7 @@
   .notification-container {
     --Text-text-primary: black;
     --surface-utility: rgba(117, 128, 138, 0.15);
+    --surface-utility-bolder: var(--surface-utility);
 
     border-radius: 0.75rem;
     background: var(--surface-utility);
@@ -49,6 +50,7 @@
   :global(.is-dark-mode) .notification-container {
     --Text-text-primary: white;
     --surface-utility: rgba(48, 50, 54, 0.6);
+    --surface-utility-bolder: rgba(24, 25, 27, 0.75);
   }
 
   .notification-container__form {
@@ -59,7 +61,7 @@
     align-items: center;
     gap: 1.5rem;
     border-radius: 1000rem;
-    background: var(--surface-utility, rgba(117, 128, 138, 0.15));
+    background: var(--surface-utility-bolder);
     cursor: pointer;
     width: 100%;
     max-width: 400px;
