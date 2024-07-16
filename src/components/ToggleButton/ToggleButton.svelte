@@ -59,9 +59,9 @@
   }
   .togglebutton__graphic {
     --height: 1.5rem;
-    --background: rgba(255, 255, 255, 0.5);
-    --border: rgba(0, 0, 0, 0.8);
-    --dot: rgba(0, 0, 0, 0.8);
+    --background: transparent;
+    --border: rgba(0, 0, 0, 0.7);
+    --dot: #0f0f0f99;
     box-sizing: border-box;
     display: block;
     position: relative;
@@ -102,7 +102,7 @@
   }
   .togglebutton__input:checked + .togglebutton__graphic {
     --dot: white;
-    --background: #000;
+    --background: rgba(0, 0, 0, 0.8);
     --border: rgba(255, 255, 255, 0);
   }
   .togglebutton__input:checked + .togglebutton__graphic::after {
@@ -120,11 +120,12 @@
 
   :global(.is-dark-mode) .togglebutton__graphic {
     --background: transparent;
-    --border: rgba(255, 255, 255, 0.8);
+    --border: rgba(255, 255, 255, 0.6);
     --dot: rgba(255, 255, 255, 0.6);
   }
   :global(.is-dark-mode) .togglebutton__input:checked + .togglebutton__graphic {
-    --dot: black;
+    --dot: #0f0f0f;
     --background: #d1e0f5;
+    --border: var(--background);
   }
 </style>
