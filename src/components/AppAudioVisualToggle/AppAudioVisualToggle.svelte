@@ -44,7 +44,7 @@
 <!-- When the toggle button changes -->
 <NotificationContainer bind:value>
   <span slot="text">This story is best experienced with&nbsp;sound</span>
-  <span slot="label" bind:this={enableAudioTextEl}>Enable audio</span>
+  <span slot="label" bind:this={enableAudioTextEl}>Enable&nbsp;audio</span>
 
   <svg slot="icon" width="37" height="35" viewBox="0 0 37 35" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g id="Headphones" clip-path="url(#clip0_50_1018)">
