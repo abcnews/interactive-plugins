@@ -91,7 +91,7 @@
       margin: 0 auto;
       border-radius: 1000rem;
       padding: 0.75rem 0.75rem 0.75rem 1.5rem;
-      gap: 1rem;
+      gap: 0.5rem;
     }
     .notification-container__form {
       width: auto;
