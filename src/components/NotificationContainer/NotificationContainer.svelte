@@ -87,10 +87,11 @@
       flex-direction: row;
       align-items: center;
       max-width: unset;
+      justify-content: space-between;
       margin: 0 auto;
       border-radius: 1000rem;
       padding: 0.75rem 0.75rem 0.75rem 1.5rem;
-      gap: 2rem;
+      gap: 1rem;
     }
     .notification-container__form {
       width: auto;
@@ -99,7 +100,14 @@
   }
 
   :global(#audio-visual-plugin-mount, #reduced-motion-plugin-mount) {
-    width: auto;
     max-width: 47.875rem;
+  }
+
+  /*
+   * By default Odyssey removes padding so our component butts against the edge.
+   * In that case, add some margin equivalent to what Odyssey removed.
+   */
+  :global([class*='u-richtext'] > [data-mount]) .notification-container {
+    margin: 0 15px;
   }
 </style>
