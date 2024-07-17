@@ -19,9 +19,11 @@
   import { getJSON, setJSON } from '../../util/storage';
   const LOCALSTORAGE_KEY = 'ABC_NEWS_REDUCEDMOTION';
   const BODY_CLASS = 'is-reduced-motion';
+  const INVERSE_BODY_CLASS = 'is-high-motion';
 
+  const storageValue = getJSON(LOCALSTORAGE_KEY);
   /** the user's preference from localStorage/browser preference/or chosen manually with the toggle */
-  let value = getJSON(LOCALSTORAGE_KEY) ?? window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let value = storageValue ?? window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let toggleCount = 0;
 
   $: {
@@ -33,6 +35,7 @@
 
     // Set a class on the body so we can target with CSS/other stuff.
     document.body.classList[value ? 'add' : 'remove'](BODY_CLASS);
+    document.body.classList[!value ? 'add' : 'remove'](INVERSE_BODY_CLASS);
   }
 </script>
 
