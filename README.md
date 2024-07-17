@@ -2,9 +2,9 @@
 
 This project provides a set of plugins that editors can include in articles to let readers control their experience.
 
-This code is designed to work with Odyssey in ABC News environments, and as such is generally unsuitable for use 
-in other projects. However it's published here in the hope others might be able to learn from the techniques used or
-pull out components for use in their own projects.
+This code is designed to work with [Odyssey](https://github.com/abcnews/odyssey) in ABC News environments, and as such 
+is generally unsuitable for use in other projects. However it's published here in the hope others might be able to learn
+from the techniques used or pull out components for use in their own projects.
 
 ## Plugins
 
