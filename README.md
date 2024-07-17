@@ -2,6 +2,10 @@
 
 This project provides a set of plugins that editors can include in articles to let readers control their experience.
 
+This code is designed to work with Odyssey in ABC News environments, and as such is generally unsuitable for use 
+in other projects. However it's published here in the hope others might be able to learn from the techniques used or
+pull out components for use in their own projects.
+
 ## Plugins
 
 ### AppAudioVisualToggle
@@ -43,13 +47,16 @@ Or in CSS:
 .is-reduced-motion .myThing{ animation: none; }
 ```
 
- An inverse class `is-high-motion` is also provided when reduced-motion isn't set.
+An inverse class `is-high-motion` is also provided when reduced-motion isn't set.
 
 ## Developing
 
 This project uses Storybook where you can preview components, including light & dark variants: `npm run storybook`.
 
 The audio visual plugin functionality is best tested in production using the Resource Override plugin, or by creating your own document to link to your development server: `npm run dev`.
+
+All the plugins are bundled into the same script, but we have separate documents so we can track where the plugins are
+used. When releasing a new version, please update each CoreMedia documents.
 
 ## Authors
 
