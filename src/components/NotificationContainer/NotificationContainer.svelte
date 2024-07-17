@@ -6,12 +6,12 @@
 
 <div class="notification-container__wrapper">
   <aside class="notification-container">
-    <div class="notification-container__text"><slot name="text"></slot></div>
+    <div class="notification-container__text fffix"><slot name="text"></slot></div>
 
     <label class="notification-container__form">
       <div class="notification-container__label">
         <div class="notification-container__icon"><slot name="icon"></slot></div>
-        <span><slot name="label"></slot></span>
+        <span class="fffix"><slot name="label"></slot></span>
       </div>
 
       <div class="notification-container__toggle">
@@ -111,5 +111,12 @@
    */
   :global([class*='u-richtext'] > [data-mount]) .notification-container {
     margin: 0 15px;
+  }
+
+  /** Firefox baseline is technically correct, but  visually slightly off. */
+  .notification-container :global(.fffix) {
+    @supports (-moz-appearance: none) {
+      transform: translateY(0.045em);
+    }
   }
 </style>
