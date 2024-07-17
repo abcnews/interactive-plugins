@@ -6,7 +6,8 @@ This project provides a set of plugins that editors can include in articles to l
 
 ### AppAudioVisualToggle
 
-Allows readers to control autoplay sound in videos embedded within articles.
+Allows readers to control autoplay sound in videos embedded within articles. This is a successor of the
+original [odyssey audio visual plugin](https://github.dev/abcnews/odyssey-audio-visual-plugin).
 
 #### Usage
 
@@ -16,7 +17,7 @@ Allows readers to control autoplay sound in videos embedded within articles.
 This plugin integrates with Odyssey to enable audio in videos by default. The plugin also adds a class to the body should you want to develop a custom component:
 
 ```js
-const prefersReudcedMotion = document.body.classList.contains('is-audio-enabled');
+const isAudioEnabled = document.body.classList.contains('is-audio-enabled');
 ```
 
 ### AppReducedMotionToggle
@@ -33,7 +34,7 @@ When this plugin is used, a class is added to the `<body>` on load and defaults 
 Devs should check the body for the applicable class rather than using the media query:
 
 ```js
-const prefersReudcedMotion = document.body.classList.contains('is-reduced-motion');
+const prefersRedudcedMotion = document.body.classList.contains('is-reduced-motion');
 ```
 
 Or in CSS:
