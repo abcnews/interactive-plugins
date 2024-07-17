@@ -26,7 +26,7 @@ Allows readers to disable high-motion content within articles. This feature impr
 
 #### Usage
 
-1. Embed the Javascript document in your article (“[odyssey audio visual plugin]” - Content ID `#101718598`)
+1. Embed the Javascript document in your article (“[odyssey-reduced-motion-plugin]” - Content ID `#104109640`)
 2. then insert the plugin into your article with this marker: `#reduced-motion-plugin-mount`
 
 When this plugin is used, a class is added to the `<body>` on load and defaults to the reader's platform prefers-reduced-motion setting.
