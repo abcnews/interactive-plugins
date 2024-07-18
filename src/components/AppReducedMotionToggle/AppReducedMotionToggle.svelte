@@ -42,7 +42,7 @@
 <!-- When the toggle button changes -->
 <NotificationContainer bind:value>
   <span slot="text">This story contains high&#8209;motion&nbsp;animation</span>
-  <span slot="label">Reduce motion</span>
+  <span slot="label">Reduce&nbsp;motion</span>
 
   <svg
     slot="icon"
