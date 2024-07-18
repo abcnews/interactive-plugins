@@ -47,7 +47,7 @@
     line-height: 125%; /* 1.25rem */
   }
 
-  :global(.is-dark-mode) .notification-container {
+  :global([data-scheme='dark']) .notification-container {
     --Text-text-primary: white;
     --surface-utility: rgba(48, 50, 54, 0.6);
     --surface-utility-bolder: rgba(24, 25, 27, 0.75);

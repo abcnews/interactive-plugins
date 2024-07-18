@@ -1,7 +1,7 @@
-<div class="is-dark-mode"><slot /></div>
+<div data-scheme="dark"><slot /></div>
 
 <style>
-  .is-dark-mode {
+  [data-scheme='dark'] {
     background: black;
     min-height: 100vh;
     margin: -1rem;

@@ -118,12 +118,12 @@
     outline-offset: 2px;
   }
 
-  :global(.is-dark-mode) .togglebutton__graphic {
+  :global([data-scheme='dark']) .togglebutton__graphic {
     --background: transparent;
     --border: rgba(255, 255, 255, 0.6);
     --dot: rgba(255, 255, 255, 0.6);
   }
-  :global(.is-dark-mode) .togglebutton__input:checked + .togglebutton__graphic {
+  :global([data-scheme='dark']) .togglebutton__input:checked + .togglebutton__graphic {
     --dot: #0f0f0f;
     --background: #d1e0f5;
     --border: var(--background);
