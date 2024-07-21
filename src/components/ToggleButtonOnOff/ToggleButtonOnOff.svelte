@@ -44,7 +44,8 @@
     opacity: 1;
   }
 
-  :global(.is-dark-mode) .toggle-button-onoff__text--on {
+  :global(.is-dark-mode) .toggle-button-onoff__text--on,
+  :global([data-scheme='dark']) .toggle-button-onoff__text--on {
     color: #d1e0f5;
   }
 </style>

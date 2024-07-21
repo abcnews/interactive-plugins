@@ -148,16 +148,20 @@
     height: 20px;
   }
 
-  :global(.is-dark-mode) .app-oavp__floater {
+  :global(.is-dark-mode) .app-oavp__floater,
+  :global([data-scheme='dark']) .app-oavp__floater {
     background: rgba(255, 255, 255, 0.6);
   }
-  :global(.is-dark-mode) .app-oavp__floater :global(svg path) {
+  :global(.is-dark-mode) .app-oavp__floater :global(svg path),
+  :global([data-scheme='dark']) .app-oavp__floater :global(svg path) {
     fill: black;
   }
-  :global(.is-dark-mode) .app-oavp__floater:hover {
+  :global(.is-dark-mode) .app-oavp__floater:hover,
+  :global([data-scheme='dark']) .app-oavp__floater:hover {
     background: white;
   }
-  :global(.is-dark-mode) .app-oavp__floater:focus-visible {
+  :global(.is-dark-mode) .app-oavp__floater:focus-visible,
+  :global([data-scheme='dark']) .app-oavp__floater:focus-visible {
     outline-color: white;
   }
 </style>
