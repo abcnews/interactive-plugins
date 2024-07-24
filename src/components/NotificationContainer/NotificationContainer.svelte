@@ -47,11 +47,14 @@
     line-height: 125%; /* 1.25rem */
   }
 
-  :global(.is-dark-mode) .notification-container,
-  :global([data-scheme='dark']) .notification-container {
-    --Text-text-primary: white;
-    --surface-utility: rgba(48, 50, 54, 0.6);
-    --surface-utility-bolder: rgba(24, 25, 27, 0.75);
+  :global(.is-dark-mode),
+  :global([data-scheme='dark']),
+  :global(.u-richtext-invert) {
+    & .notification-container {
+      --Text-text-primary: white;
+      --surface-utility: rgba(48, 50, 54, 0.6);
+      --surface-utility-bolder: rgba(24, 25, 27, 0.75);
+    }
   }
 
   .notification-container__form {
@@ -104,13 +107,15 @@
 
   :global(#audio-visual-plugin-mount, #reduced-motion-plugin-mount) {
     max-width: 47.875rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /*
    * By default Odyssey removes padding so our component butts against the edge.
    * In that case, add some margin equivalent to what Odyssey removed.
    */
-  :global([class*='u-richtext'] > [data-mount]) .notification-container {
+  :global([class*='u-richtext']:not(.Header-content) > [data-mount]) .notification-container {
     margin: 0 15px;
   }
 
