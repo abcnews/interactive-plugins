@@ -56,14 +56,17 @@ Or as a $state var in Svelte 5:
 ```js
 let prefersReducedMotion = $state(document.body.classList.contains('is-reduced-motion'));
 
-const observer = new MutationObserver(function (event) {
-  prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
-});
-observer.observe(document.body, {
-  attributes: true,
-  attributeFilter: ['class'],
-  childList: false,
-  characterData: false
+onMount(() => {
+  const observer = new MutationObserver(function (event) {
+    prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
+  });
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class'],
+    childList: false,
+    characterData: false
+  });
+  return () => observer.disconnect();
 });
 ```
 
