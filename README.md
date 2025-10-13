@@ -51,6 +51,22 @@ Or in CSS:
 
 An inverse class `is-high-motion` is also provided when reduced-motion isn't set.
 
+Or as a $state var in Svelte 5:
+
+```js
+let prefersReducedMotion = $state(document.body.classList.contains('is-reduced-motion'));
+
+const observer = new MutationObserver(function (event) {
+  prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
+});
+observer.observe(document.body, {
+  attributes: true,
+  attributeFilter: ['class'],
+  childList: false,
+  characterData: false
+});
+```
+
 ## Developing
 
 This project uses Storybook where you can preview components, including light & dark variants: `npm run storybook`.
