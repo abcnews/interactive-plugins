@@ -33,12 +33,14 @@ Allows readers to disable high-motion content within articles. This feature impr
 1. Embed the Javascript document in your article (“[odyssey-reduced-motion-plugin]” - Content ID `#104109640`)
 2. then insert the plugin into your article with this marker: `#reduced-motion-plugin-mount`
 
-When this plugin is used, a class is added to the `<body>` on load and defaults to the reader's platform prefers-reduced-motion setting.
+When this plugin is used, a class is added to the `<body>` on load. It defaults to the reader's platform `prefers-reduced-motion` setting, but can be overridden by the user via the toggle button. 
+
+User preferences are stored in `localStorage` and will persist across sessions, taking precedence over the OS setting once set.
 
 Devs should check the body for the applicable class rather than using the media query:
 
 ```js
-const prefersRedudcedMotion = document.body.classList.contains('is-reduced-motion');
+const prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
 ```
 
 Or in CSS:
