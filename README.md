@@ -2,7 +2,7 @@
 
 This project provides a set of plugins that editors can include in articles to let readers control their experience.
 
-This code is designed to work with [Odyssey](https://github.com/abcnews/odyssey) in ABC News environments, and as such 
+This code is designed to work with [Odyssey](https://github.com/abcnews/odyssey) in ABC News environments, and as such
 is generally unsuitable for use in other projects. However it's published here in the hope others might be able to learn
 from the techniques used or pull out components for use in their own projects.
 
@@ -35,18 +35,22 @@ Allows readers to disable high-motion content within articles. This feature impr
 
 This plugin integrates with Odyssey to enable click-to-play videos by default.
 
-When this plugin is used, a class is added to the `<body>` on load and defaults to the reader's platform prefers-reduced-motion setting.
+When this plugin is used, a class is added to the `<body>` on load. It defaults to the reader's platform `prefers-reduced-motion` setting, but can be overridden by the user via the toggle button.
+
+User preferences are stored in `localStorage` and will persist across sessions, taking precedence over the OS setting once set.
 
 Devs should check the body for the applicable class rather than using the media query:
 
 ```js
-const prefersRedudcedMotion = document.body.classList.contains('is-reduced-motion');
+const prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
 ```
 
 Or in CSS:
 
 ```css
-.is-reduced-motion .myThing{ animation: none; }
+.is-reduced-motion .myThing {
+  animation: none;
+}
 ```
 
 An inverse class `is-high-motion` is also provided when reduced-motion isn't set.
