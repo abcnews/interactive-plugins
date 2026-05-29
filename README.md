@@ -58,8 +58,6 @@ An inverse class `is-high-motion` is also provided when reduced-motion isn't set
 Or as a $state var in Svelte 5:
 
 ```js
-// reducedMotion.svelte.ts
-
 let prefersReducedMotion = $state(document.body.classList.contains('is-reduced-motion'));
 
 onMount(() => {
@@ -79,6 +77,8 @@ onMount(() => {
 Use the following pattern if you want a Svelte 5 Runes shared state:
 
 ```ts
+// reducedMotion.svelte.ts
+
 class ReducedMotionStore {
   #value = $state(
     typeof document !== 'undefined'
