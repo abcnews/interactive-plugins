@@ -81,25 +81,29 @@ Use the following pattern if you want a Svelte 5 Runes shared state:
 
 class ReducedMotionStore {
   #value = $state(
-    typeof document !== 'undefined'
-      ? document.body.classList.contains('is-reduced-motion')
-      : false
+    typeof document !== "undefined"
+      ? document.body.classList.contains("is-reduced-motion")
+      : false,
   );
 
   get current() {
     return this.#value;
   }
 
+  #sync() {
+    this.#value = document.body.classList.contains("is-reduced-motion");
+  }
+
   observe() {
-    const observer = new MutationObserver(() => {
-      this.#value = document.body.classList.contains('is-reduced-motion');
-    });
+    this.#sync();
+
+    const observer = new MutationObserver(() => this.#sync());
 
     observer.observe(document.body, {
       attributes: true,
-      attributeFilter: ['class'],
+      attributeFilter: ["class"],
       childList: false,
-      characterData: false
+      characterData: false,
     });
 
     return () => observer.disconnect();
