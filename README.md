@@ -61,13 +61,13 @@ Or as a $state var in Svelte 5:
 let prefersReducedMotion = $state(document.body.classList.contains('is-reduced-motion'));
 
 function syncReducedMotion() {
-    prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
-  }
+  prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
+}
 
 onMount(() => {
-  sync(); // Fire immediately for initial sync
+  syncReducedMotion(); // Fire immediately for initial sync
 
-  const observer = new MutationObserver(sync);
+  const observer = new MutationObserver(syncReducedMotion);
 
   observer.observe(document.body, {
     attributes: true,
