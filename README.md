@@ -60,10 +60,15 @@ Or as a $state var in Svelte 5:
 ```js
 let prefersReducedMotion = $state(document.body.classList.contains('is-reduced-motion'));
 
-onMount(() => {
-  const observer = new MutationObserver(function (event) {
+function syncReducedMotion() {
     prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
-  });
+  }
+
+onMount(() => {
+  sync(); // Fire immediately for initial sync
+
+  const observer = new MutationObserver(sync);
+
   observer.observe(document.body, {
     attributes: true,
     attributeFilter: ['class'],
