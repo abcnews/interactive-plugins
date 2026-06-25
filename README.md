@@ -39,99 +39,25 @@ When this plugin is used, a class is added to the `<body>` on load. It defaults 
 
 User preferences are stored in `localStorage` and will persist across sessions, taking precedence over the OS setting once set.
 
-Devs should check the body for the applicable class rather than using the media query:
+Devs should check the body for the applicable class rather than using the media query. env-utils provides a Svelte Store:
 
 ```js
-const prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
+import { prefersReducedMotion } from '@abcnews/env-utils';
+console.log($prefersReducedMotion);
 ```
 
-Or in CSS:
+Or you can use the classes directly in CSS:
 
 ```css
-.is-reduced-motion .myThing {
+body.is-reduced-motion .myThing {
   animation: none;
 }
-```
-
-An inverse class `is-high-motion` is also provided when reduced-motion isn't set.
-
-Or as a $state var in Svelte 5:
-
-```js
-let prefersReducedMotion = $state(document.body.classList.contains('is-reduced-motion'));
-
-function syncReducedMotion() {
-  prefersReducedMotion = document.body.classList.contains('is-reduced-motion');
+body.is-high-motion .myThing {
+  animation: hyper-zoom-pan-dizzy 3s ease-in-out;
 }
-
-onMount(() => {
-  syncReducedMotion(); // Fire immediately for initial sync
-
-  const observer = new MutationObserver(syncReducedMotion);
-
-  observer.observe(document.body, {
-    attributes: true,
-    attributeFilter: ['class'],
-    childList: false,
-    characterData: false
-  });
-  return () => observer.disconnect();
-});
 ```
 
-Use the following pattern if you want a Svelte 5 Runes shared state:
-
-```ts
-// reducedMotion.svelte.ts
-
-class ReducedMotionStore {
-  #value = $state(
-    typeof document !== "undefined"
-      ? document.body.classList.contains("is-reduced-motion")
-      : false,
-  );
-
-  get current() {
-    return this.#value;
-  }
-
-  #sync() {
-    this.#value = document.body.classList.contains("is-reduced-motion");
-  }
-
-  observe() {
-    this.#sync();
-
-    const observer = new MutationObserver(() => this.#sync());
-
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ["class"],
-      childList: false,
-      characterData: false,
-    });
-
-    return () => observer.disconnect();
-  }
-}
-
-export const reducedMotion = new ReducedMotionStore();
-```
-
-Then consume in any Svelte component with:
-
-```svelte
-<script>
-  import { reducedMotion } from './reducedMotion.svelte.ts';
-  import { onMount } from 'svelte';
-
-  onMount(() => reducedMotion.observe());
-</script>
-
-{#if reducedMotion.current}
-  <p>Reduced motion is active</p>
-{/if}
-```
+There is a Svelte Store that automatically symcs the value
 
 ## Developing
 
